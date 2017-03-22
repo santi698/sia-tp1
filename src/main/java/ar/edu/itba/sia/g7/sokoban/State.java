@@ -23,4 +23,8 @@ public class State implements GPSState {
     }
     return Arrays.equals(map, ((State) o).getMap());
   }
+
+  public int hashCode() {
+    return Arrays.hashCode(map);
+  }
 }

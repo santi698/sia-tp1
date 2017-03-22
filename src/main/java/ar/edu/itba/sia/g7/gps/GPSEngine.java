@@ -1,80 +1,155 @@
 package ar.edu.itba.sia.g7.gps;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
 import ar.edu.itba.sia.g7.gps.api.GPSProblem;
+
 import ar.edu.itba.sia.g7.gps.api.GPSRule;
 import ar.edu.itba.sia.g7.gps.api.GPSState;
-import ar.edu.itba.sia.g7.gps.exception.NotAppliableException;
 
-public abstract class GPSEngine {
+public class GPSEngine {
 
-	protected Queue<GPSNode> open;
-	protected Set<GPSState> bestCosts = new HashSet<GPSState>();
+  Queue<GPSNode> open;
+  Map<GPSState, Integer> bestCosts;
+  GPSProblem problem;
+  long explosionCounter;
+  boolean finished;
+  boolean failed;
+  GPSNode solutionNode;
 
-	protected GPSProblem problem;
-	long explosionCounter;
+  // Use this variable in open set order.
+  protected SearchStrategy strategy;
 
-	// Use this variable in open set order.
-	protected SearchStrategy strategy;
+  public GPSEngine(GPSProblem myProblem, SearchStrategy myStrategy) {
+    // TODO: open = *Su queue favorito, TENIENDO EN CUENTA EL ORDEN DE LOS NODOS*
+    bestCosts = new HashMap<GPSState, Integer>();
+    problem = myProblem;
+    strategy = myStrategy;
+    explosionCounter = 0;
+    finished = false;
+    failed = false;
+  }
 
-	public void engine(GPSProblem myProblem, SearchStrategy myStrategy) {
+  public void findSolution() {
+    GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
+    open.add(rootNode);
+    // TODO: ¿Lógica de IDDFS?
+    while (open.size() <= 0) {
+      GPSNode currentNode = open.remove();
+      if (problem.isGoal(currentNode.getState())) {
+        finished = true;
+        solutionNode = currentNode;
+        return;
+      } else {
+        explode(currentNode);
+      }
+    }
+    failed = true;
+    finished = true;
+  }
 
-		problem = myProblem;
-		strategy = myStrategy;
+  private void explode(GPSNode node) {
+    Collection<GPSNode> newCandidates;
+    switch (strategy) {
+    case BFS:
+      if (bestCosts.containsKey(node.getState())) {
+        return;
+      }
+      newCandidates = new ArrayList<>();
+      addCandidates(node, newCandidates);
+      // TODO: ¿Cómo se agregan los nodos a open en BFS?
+      break;
+    case DFS:
+      if (bestCosts.containsKey(node.getState())) {
+        return;
+      }
+      newCandidates = new ArrayList<>();
+      addCandidates(node, newCandidates);
+      // TODO: ¿Cómo se agregan los nodos a open en DFS?
+      break;
+    case IDDFS:
+      if (bestCosts.containsKey(node.getState())) {
+        return;
+      }
+      newCandidates = new ArrayList<>();
+      addCandidates(node, newCandidates);
+      // TODO: ¿Cómo se agregan los nodos a open en IDDFS?
+      break;
+    case GREEDY:
+      newCandidates = new PriorityQueue<>(/* TODO: Comparator! */);
+      addCandidates(node, newCandidates);
+      // TODO: ¿Cómo se agregan los nodos a open en GREEDY?
+      break;
+    case ASTAR:
+      if (!isBest(node.getState(), node.getCost())) {
+        return;
+      }
+      newCandidates = new ArrayList<>();
+      addCandidates(node, newCandidates);
+      // TODO: ¿Cómo se agregan los nodos a open en A*?
+      break;
+    }
+  }
 
-		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
-		explosionCounter = 0;
-		boolean finished = false;
-		boolean failed = false;
-		open.add(rootNode);
-		while (!failed && !finished) {
-			if (open.size() <= 0) {
-				failed = true;
-			} else {
-				GPSNode currentNode = open.remove();
-				if (problem.isGoal(currentNode.getState())) {
-					finished = true;
-					System.out.println(currentNode.getSolution());
-					System.out.println("Expanded nodes: " + explosionCounter);
-					System.out.println("Solution cost: " + currentNode.getCost());
-				} else {
-					explode(currentNode);
-				}
-			}
-		}
-		if (finished) {
-			System.out.println("OK! solution found!");
-		} else if (failed) {
-			System.err.println("FAILED! solution not found!");
-		}
-	}
+  private void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
+    explosionCounter++;
+    updateBest(node);
+    for (GPSRule rule : problem.getRules()) {
+      Optional<GPSState> newState = rule.evalRule(node.getState());
+      if (newState.isPresent()) {
+        GPSNode newNode = new GPSNode(newState.get(), node.getCost() + rule.getCost());
+        newNode.setParent(node);
+        candidates.add(newNode);
+      }
+    }
+  }
 
-	private void explode(GPSNode node) {
-		switch (strategy) {
-			case BFS:
-			case DFS:
-				if(bestCosts.contains(node.getState())){
-					return;
-				}
-		}
-		explosionCounter++;
-		updateBest(node);
-		for (GPSRule rule : problem.getRules()) {
-			try {
-				GPSNode newNode = new GPSNode(rule.evalRule(node.getState()), node.getCost() + rule.getCost());
-				newNode.setParent(node);
-				open.add(newNode);
-			} catch (NotAppliableException e) {
-				// Si no es aplicable, se saltea.
-			}
-		}
-	}
+  private boolean isBest(GPSState state, Integer cost) {
+    return !bestCosts.containsKey(state) || cost < bestCosts.get(state);
+  }
 
-	private void updateBest(GPSNode node) {
-		bestCosts.add(node.getState());
-	}
+  private void updateBest(GPSNode node) {
+    bestCosts.put(node.getState(), node.getCost());
+  }
+
+  // GETTERS FOR THE PEOPLE!
+
+  public Queue<GPSNode> getOpen() {
+    return open;
+  }
+
+  public Map<GPSState, Integer> getBestCosts() {
+    return bestCosts;
+  }
+
+  public GPSProblem getProblem() {
+    return problem;
+  }
+
+  public long getExplosionCounter() {
+    return explosionCounter;
+  }
+
+  public boolean isFinished() {
+    return finished;
+  }
+
+  public boolean isFailed() {
+    return failed;
+  }
+
+  public GPSNode getSolutionNode() {
+    return solutionNode;
+  }
+
+  public SearchStrategy getStrategy() {
+    return strategy;
+  }
 
 }
