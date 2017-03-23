@@ -1,6 +1,24 @@
+package ar.edu.itba.sia.g7.sokoban;
+
 public enum Direction {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT
+  UP(0, -1),
+  DOWN(0, 1),
+  LEFT(-1, 0),
+  RIGHT(1, 0);
+
+  private int deltaX;
+  private int deltaY;
+
+  Direction(int deltaX, int deltaY) {
+    this.deltaX = deltaX;
+    this.deltaY = deltaY;
+  }
+
+  public int getDeltaX() {
+    return deltaX;
+  }
+
+  public int getDeltaY() {
+    return deltaY;
+  }
 }
