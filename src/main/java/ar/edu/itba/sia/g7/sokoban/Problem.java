@@ -9,12 +9,18 @@ import java.util.List;
 import java.util.Collections;
 
 public class Problem implements GPSProblem {
+  private BoardState board;
+  
+  public Problem (BoardState board){
+	  this.board = board;
+  }
+	
   public GPSState getInitState() {
-    return null;
+    return this.board;
   }
 
   public boolean isGoal(GPSState state) {
-    return false;
+    return ((BoardState)state).isSolved();
   }
 
   public List<GPSRule> getRules() {

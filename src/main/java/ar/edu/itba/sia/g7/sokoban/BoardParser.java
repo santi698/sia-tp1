@@ -74,6 +74,7 @@ public class BoardParser {
 			case BOXINGOAL :
 				t = new Tile(x,y,Entity.BOX,TileType.GOAL);
 				board.addBox(t);
+				board.addGoal(t);
 				return t;
 			case EMPTY :
 				return new Tile(x,y,Entity.NOENTITY,TileType.FLOOR);

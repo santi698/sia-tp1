@@ -3,6 +3,7 @@ package ar.edu.itba.sia.g7.sokoban;
 import java.util.ArrayList;
 
 import ar.edu.itba.sia.g7.gps.api.GPSState;
+import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
 
@@ -10,6 +11,7 @@ public class BoardState implements GPSState{
 
   private ArrayList<ArrayList<Tile>> rows; 
   private Tile characterTile;
+  //Is it worth to save (and update) boxes position? Vs each time needed iterate all the board to find them
   private ArrayList<Tile> boxes;
   private ArrayList<Tile> goals;
 	
@@ -49,6 +51,15 @@ public class BoardState implements GPSState{
   
   public ArrayList<ArrayList<Tile>> getRows() {
 	return rows;
+  }
+  
+  public boolean isSolved(){
+	  for(Tile t : this.goals){
+		  if(this.rows.get(t.getxPosition()).get(t.getyPosition()).getEntity()!=Entity.BOX){
+			  return false;
+		  }
+	  }
+	  return true;
   }
 	
 }
