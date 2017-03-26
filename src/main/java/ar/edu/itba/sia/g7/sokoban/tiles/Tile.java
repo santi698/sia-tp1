@@ -6,7 +6,7 @@ public class Tile {
   private int xPosition, yPosition;
   private Entity entity;
   private TileType type;
-  
+
   public Tile(int xPosition, int yPosition, Entity entity, TileType type) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
@@ -28,5 +28,9 @@ public class Tile {
   
   public int getyPosition() {
 		return yPosition;
+  }
+
+  public TileType getType(){
+    return type;
   }
 }

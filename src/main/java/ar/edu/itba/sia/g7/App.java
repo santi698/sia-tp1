@@ -25,7 +25,9 @@ public class App {
 		}else{
 			System.out.println("mapa invalido");
 		}
-		
+
+
+    System.out.println(BoardParser.boardToString(board));
 
   }
 }

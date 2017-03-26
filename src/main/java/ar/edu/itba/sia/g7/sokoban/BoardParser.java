@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.InvalidMapFormatException;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
 import ar.edu.itba.sia.g7.sokoban.tiles.TileType;
+
+import javax.swing.*;
 
 public class BoardParser {
 	private static final char CHARACTER = 'C';
@@ -88,4 +91,37 @@ public class BoardParser {
 				throw new InvalidMapFormatException("");
 		}
 	}
+
+  public static String boardToString(BoardState board) {
+    StringBuffer buffer = new StringBuffer();
+    for (List<Tile> row : board.getRows()) {
+      for (Tile t : row) {
+
+        if (t.getEntity() != Entity.NOENTITY) {
+          switch (t.getEntity()) {
+            case CHARACTER:
+              buffer.append(CHARACTER);
+              break;
+            case BOX:
+              buffer.append(BOX);
+              break;
+          }
+        } else {
+          switch (t.getType()) {
+            case FLOOR:
+              buffer.append(EMPTY);
+              break;
+            case WALL:
+              buffer.append(WALL);
+              break;
+            case GOAL:
+              buffer.append(GOAL);
+              break;
+          }
+        }
+      }
+      buffer.append('\n');
+    }
+    return buffer.toString();
+  }
 }

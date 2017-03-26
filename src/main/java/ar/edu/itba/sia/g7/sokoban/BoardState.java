@@ -34,15 +34,15 @@ public class BoardState implements GPSState{
   }
   
   public void addBox(Tile boxTile){
-	  this.boxes.add(boxTile);
+    this.boxes.add(boxTile);
   }
   
   public void addGoal(Tile goalTile){
-	  this.goals.add(goalTile);
+    this.goals.add(goalTile);
   }
   
   public boolean hasCharacter(){
-	  return this.characterTile != null;
+    return this.characterTile != null;
   }
   
   public boolean isPlayable(){
@@ -50,7 +50,7 @@ public class BoardState implements GPSState{
   }
   
   public ArrayList<ArrayList<Tile>> getRows() {
-	return rows;
+	  return rows;
   }
   
   public boolean isSolved(){
