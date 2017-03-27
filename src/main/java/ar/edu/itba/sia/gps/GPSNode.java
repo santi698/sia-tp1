@@ -1,26 +1,28 @@
-package ar.edu.itba.sia.g7.gps;
+package  ar.edu.itba.sia.gps;
 
-import ar.edu.itba.sia.g7.gps.api.GPSState;
+import  ar.edu.itba.sia.gps.api.GPSState;
+import java.util.Collection;
+import  ar.edu.itba.sia.gps.api.GPSRule;
+import java.util.LinkedList;
+import java.util.Optional;
 
 public class GPSNode {
-
   private GPSState state;
-
   private GPSNode parent;
-
   private Integer cost;
 
   public GPSNode(GPSState state, Integer cost) {
+    this(state, cost, null);
+  }
+
+  public GPSNode(GPSState state, Integer cost, GPSNode parent) {
     this.state = state;
     this.cost = cost;
+    this.parent = parent;
   }
 
   public GPSNode getParent() {
     return parent;
-  }
-
-  public void setParent(GPSNode parent) {
-    this.parent = parent;
   }
 
   public GPSState getState() {
@@ -41,6 +43,24 @@ public class GPSNode {
       return this.state.toString();
     }
     return this.parent.getSolution() + this.state.toString();
+  }
+
+  /**
+   * Gets all neighbor states applying given rules
+   * @param rules
+   *            The rules to apply
+   * @return a list of neighbor states
+   */
+
+  public Collection<GPSNode> getNeighbors(Iterable<GPSRule> rules) {
+    Collection<GPSNode> neighbors = new LinkedList<>();
+    for (GPSRule rule : rules) {
+      Optional<GPSState> newState = rule.evalRule(this.getState());
+      newState.ifPresent(
+        (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this))
+      );
+    }
+    return neighbors;
   }
 
   @Override

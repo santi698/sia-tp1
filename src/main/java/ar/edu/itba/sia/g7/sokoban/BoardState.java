@@ -2,7 +2,7 @@ package ar.edu.itba.sia.g7.sokoban;
 
 import java.util.ArrayList;
 
-import ar.edu.itba.sia.g7.gps.api.GPSState;
+import ar.edu.itba.sia.gps.api.GPSState;
 import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;

@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.g7.gps.exception;
+package  ar.edu.itba.sia.gps.exception;
 
 public class NotAppliableException extends Exception {
 

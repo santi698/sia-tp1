@@ -1,8 +1,8 @@
-package ar.edu.itba.sia.g7.gps.api;
+package  ar.edu.itba.sia.gps.api;
 
 import java.util.Optional;
 
-import ar.edu.itba.sia.g7.gps.exception.NotAppliableException;
+import  ar.edu.itba.sia.gps.exception.NotAppliableException;
 
 /**
  * GPSRule interface.

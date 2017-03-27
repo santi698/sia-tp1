@@ -1,8 +1,8 @@
 package ar.edu.itba.sia.g7.sokoban;
 
 
-import ar.edu.itba.sia.g7.gps.api.GPSRule;
-import ar.edu.itba.sia.g7.gps.api.GPSState;
+import ar.edu.itba.sia.gps.api.GPSRule;
+import ar.edu.itba.sia.gps.api.GPSState;
 
 import java.awt.image.DirectColorModel;
 import java.util.Optional;
