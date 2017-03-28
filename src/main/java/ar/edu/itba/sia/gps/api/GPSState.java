@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.g7.gps.api;
+package  ar.edu.itba.sia.gps.api;
 
 /**
  * GPSState interface.
