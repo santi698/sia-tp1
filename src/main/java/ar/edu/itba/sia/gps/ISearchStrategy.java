@@ -14,4 +14,5 @@ public interface ISearchStrategy {
   GPSNode removeNextNode();
   Queue<GPSNode> getOpen();
   Map<GPSState, Integer> getBestCosts();
+  long getExplosionCounter();
 }

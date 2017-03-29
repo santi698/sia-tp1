@@ -16,7 +16,7 @@ import ar.edu.itba.sia.gps.strategies.*;
 public class GPSEngine {
 
   private GPSProblem problem;
-  private long explosionCounter;
+
   private boolean finished;
   private boolean failed;
   private GPSNode solutionNode;
@@ -27,13 +27,12 @@ public class GPSEngine {
     problem = myProblem;
     strategy = myStrategy;
     strategyObject = initStrategy();
-    explosionCounter = 0;
     finished = false;
     failed = false;
   }
 
   public void findSolution() {
-    GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
+    GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
     strategyObject.addNode(rootNode);
     // TODO: ¿Lógica de IDDFS?
     while (strategyObject.hasNextNode()) {
@@ -76,7 +75,7 @@ public class GPSEngine {
   }
 
   public long getExplosionCounter() {
-    return explosionCounter;
+    return strategyObject.getExplosionCounter();
   }
 
   public boolean isFinished() {

@@ -7,21 +7,27 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 public class GPSNode {
+  private final GPSRule generationRule;
   private GPSState state;
   private GPSNode parent;
   private Integer cost;
   private Integer level;
 
-  public GPSNode(GPSState state, Integer cost) {
-    this(state, cost, null, 0);
+
+  public GPSNode(GPSState state, Integer cost, GPSRule generationRule) {
+    this(state,cost,null,0,generationRule);
   }
 
-  public GPSNode(GPSState state, Integer cost, GPSNode parent, Integer level) {
+
+  public GPSNode(GPSState state, Integer cost, GPSNode parent, Integer level, GPSRule generationRule) {
     this.state = state;
     this.cost = cost;
     this.parent = parent;
     this.level = level;
+    this.generationRule = generationRule;
   }
+
+
 
   public Integer getLevel() {
     return level;
@@ -64,7 +70,7 @@ public class GPSNode {
       Optional<GPSState> newState = rule.evalRule(this.getState());
       //FIXME: ver si pasarle el level asi está ok.
       newState.ifPresent(
-        (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this, level+1))
+        (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this, level+1, rule))
       );
     }
     return neighbors;
@@ -86,5 +92,10 @@ public class GPSNode {
       return false;
     return true;
   }
+
+  public GPSRule getGenerationRule() {
+    return generationRule;
+  }
+
 
 }

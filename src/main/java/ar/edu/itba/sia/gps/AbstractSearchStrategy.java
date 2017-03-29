@@ -11,9 +11,11 @@ import java.util.Queue;
 public abstract class AbstractSearchStrategy implements ISearchStrategy {
   private Map<GPSState, Integer> bestCosts;
   private Queue<GPSNode> open;
+  private long explosionCounter;
 
   public AbstractSearchStrategy() {
     bestCosts = new HashMap<>();
+    explosionCounter = 0;
   }
 
   public void setOpen(Queue<GPSNode> open) {
@@ -29,6 +31,7 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNode(GPSNode node) {
+    explosionCounter++;
     updateBest(node);
     concreteAddNode(node);
   }
@@ -63,4 +66,8 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   protected abstract void concreteAddNode(GPSNode node);
 
   public abstract GPSNode removeNextNode();
+
+  public long getExplosionCounter() {
+    return explosionCounter;
+  }
 }
