@@ -18,6 +18,7 @@ public class IDDFSSearchStrategy  extends AbstractSearchStrategy {
     super();
     this.nodes = new LinkedList<>();
     this.depthBound = 0;
+    setOpen(nodes);
   }
 
   @Override

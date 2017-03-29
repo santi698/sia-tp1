@@ -4,12 +4,26 @@ import java.util.Map;
 import java.util.HashMap;
 import  ar.edu.itba.sia.gps.api.GPSState;
 import java.util.Collection;
+import java.util.Queue;
 
 public abstract class AbstractSearchStrategy implements ISearchStrategy {
   private Map<GPSState, Integer> bestCosts;
+  private Queue<GPSNode> open;
 
   public AbstractSearchStrategy() {
     bestCosts = new HashMap<>();
+  }
+
+  public void setOpen(Queue<GPSNode> open) {
+    this.open = open;
+  }
+
+  public Queue<GPSNode> getOpen() {
+    return open;
+  }
+
+  public Map<GPSState, Integer> getBestCosts() {
+    return bestCosts;
   }
 
   public void addNode(GPSNode node) {
