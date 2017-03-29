@@ -1,8 +1,10 @@
-package  ar.edu.itba.sia.gps;
+package ar.edu.itba.sia.gps;
 
 import java.util.Map;
 import java.util.HashMap;
-import  ar.edu.itba.sia.gps.api.GPSState;
+
+import ar.edu.itba.sia.gps.api.GPSState;
+
 import java.util.Collection;
 import java.util.Queue;
 
@@ -32,7 +34,14 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNodes(Collection<GPSNode> nodes) {
-    nodes.stream().forEach((node) -> addNode(node));
+
+    nodes.stream().forEach((node) -> {
+
+      if (expanded(node)) {
+        return;
+      }
+      addNode(node);
+    });
   }
 
   public boolean expanded(GPSNode node) {
@@ -40,5 +49,6 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   protected abstract void concreteAddNode(GPSNode node);
+
   public abstract GPSNode removeNextNode();
 }
