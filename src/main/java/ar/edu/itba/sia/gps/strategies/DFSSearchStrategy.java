@@ -6,7 +6,9 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class DFSSearchStrategy extends AbstractSearchStrategy {
-  Deque<GPSNode> nodes;
+
+  private Deque<GPSNode> nodes;
+
   public DFSSearchStrategy() {
     super();
     nodes = new LinkedList<>();

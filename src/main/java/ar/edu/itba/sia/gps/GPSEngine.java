@@ -55,7 +55,7 @@ public class GPSEngine {
     switch (strategy) {
       case DFS: return new DFSSearchStrategy();
       case BFS: return new BFSSearchStrategy();
-      case IDDFS: return null;
+      case IDDFS: return new IDDFSSearchStrategy();
       case GREEDYSEARCH: return new GreedySearchStrategy(problem::getHValue);
       case ASTAR: return new AStarSearchStrategy(problem::getHValue);
       default: return null;

@@ -10,15 +10,21 @@ public class GPSNode {
   private GPSState state;
   private GPSNode parent;
   private Integer cost;
+  private Integer level;
 
   public GPSNode(GPSState state, Integer cost) {
-    this(state, cost, null);
+    this(state, cost, null, 0);
   }
 
-  public GPSNode(GPSState state, Integer cost, GPSNode parent) {
+  public GPSNode(GPSState state, Integer cost, GPSNode parent, Integer level) {
     this.state = state;
     this.cost = cost;
     this.parent = parent;
+    this.level = level;
+  }
+
+  public Integer getLevel() {
+    return level;
   }
 
   public GPSNode getParent() {
@@ -56,8 +62,9 @@ public class GPSNode {
     Collection<GPSNode> neighbors = new LinkedList<>();
     for (GPSRule rule : rules) {
       Optional<GPSState> newState = rule.evalRule(this.getState());
+      //FIXME: ver si pasarle el level asi está ok.
       newState.ifPresent(
-        (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this))
+        (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this, level+1))
       );
     }
     return neighbors;
