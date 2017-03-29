@@ -14,6 +14,7 @@ public class AStarSearchStrategy extends AbstractSearchStrategy {
     nodes = new PriorityQueue<>(
       (a, b) -> (b.getCost() + heuristic.apply(b.getState())) - (a.getCost() + heuristic.apply(a.getState()))
     );
+    setOpen(nodes);
   }
 
   @Override

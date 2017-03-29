@@ -10,6 +10,7 @@ public class BFSSearchStrategy extends AbstractSearchStrategy {
   public BFSSearchStrategy() {
     super();
     nodes = new LinkedList<>();
+    setOpen(nodes);
   }
 
   public void concreteAddNode(GPSNode node) {

@@ -14,8 +14,7 @@ import ar.edu.itba.sia.gps.api.GPSState;
 import ar.edu.itba.sia.gps.strategies.*;
 
 public class GPSEngine {
-  private Queue<GPSNode> open;
-  private Map<GPSState, Integer> bestCosts;
+
   private GPSProblem problem;
   private long explosionCounter;
   private boolean finished;
@@ -55,7 +54,7 @@ public class GPSEngine {
     switch (strategy) {
       case DFS: return new DFSSearchStrategy();
       case BFS: return new BFSSearchStrategy();
-      case IDDFS: return null;
+      case IDDFS: return new IDDFSSearchStrategy();
       case GREEDYSEARCH: return new GreedySearchStrategy(problem::getHValue);
       case ASTAR: return new AStarSearchStrategy(problem::getHValue);
       default: return null;
@@ -65,11 +64,11 @@ public class GPSEngine {
   // GETTERS FOR THE PEOPLE!
 
   public Queue<GPSNode> getOpen() {
-    return open;
+    return strategyObject.getOpen();
   }
 
   public Map<GPSState, Integer> getBestCosts() {
-    return bestCosts;
+    return strategyObject.getBestCosts();
   }
 
   public GPSProblem getProblem() {
