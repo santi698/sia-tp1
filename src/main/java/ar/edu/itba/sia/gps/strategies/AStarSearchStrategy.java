@@ -29,4 +29,11 @@ public class AStarSearchStrategy extends AbstractSearchStrategy {
   public boolean hasNextNode() {
     return !nodes.isEmpty();
   };
+
+  @Override
+  protected boolean canContinue(GPSNode node) {
+    //TODO chequear que esté ok la lógica
+    return isBest(node.getState(), node.getCost());
+  }
+
 }

@@ -29,23 +29,35 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNode(GPSNode node) {
-    bestCosts.put(node.getState(), node.getCost());
+    updateBest(node);
     concreteAddNode(node);
+  }
+
+
+  private void updateBest(GPSNode node) {
+    bestCosts.put(node.getState(), node.getCost());
   }
 
   public void addNodes(Collection<GPSNode> nodes) {
 
     nodes.stream().forEach((node) -> {
 
-      if (expanded(node)) {
+      if(!canContinue(node)){
         return;
       }
+
       addNode(node);
     });
   }
 
+  protected abstract boolean canContinue(GPSNode node);
+
   public boolean expanded(GPSNode node) {
     return bestCosts.containsKey(node.getState());
+  }
+
+  protected boolean isBest(GPSState state, Integer cost) {
+    return !bestCosts.containsKey(state) || cost < bestCosts.get(state);
   }
 
   protected abstract void concreteAddNode(GPSNode node);

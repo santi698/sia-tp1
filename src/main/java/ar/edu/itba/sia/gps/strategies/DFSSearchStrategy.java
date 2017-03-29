@@ -20,6 +20,13 @@ public class DFSSearchStrategy extends AbstractSearchStrategy {
   public void concreteAddNode(GPSNode node) {
     nodes.addFirst(node);
   }
+  @Override
+  protected boolean canContinue(GPSNode node) {
+    if (expanded(node)) {
+      return false;
+    }
+    return true;
+  }
 
   public GPSNode removeNextNode() {
     return nodes.remove();

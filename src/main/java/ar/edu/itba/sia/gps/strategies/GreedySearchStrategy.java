@@ -11,10 +11,28 @@ public class GreedySearchStrategy extends AbstractSearchStrategy {
   Queue<GPSNode> nodes;
   public GreedySearchStrategy(Function<GPSState, Integer> heuristic) {
     super();
+    /*
+    (a, b) -> heuristic.apply(b.getState()) - heuristic.apply(a.getState())
+
+    ES LO MISMO QUE HACER:
+
+    new Comparator<GSPNode>() {
+      @Override
+      public int compare(GSPNode a, GSPNode b) {
+        return heuristic.apply(b.getState()) - heuristic.apply(a.getState());
+      }
+    }*/
+
     nodes = new PriorityQueue<>(
       (a, b) -> heuristic.apply(b.getState()) - heuristic.apply(a.getState())
     );
     setOpen(nodes);
+  }
+
+  @Override
+  protected boolean canContinue(GPSNode node) {
+    //TODO chequear que nuestra forma de implementación no requiera de esta implementación.
+    return true;
   }
 
   @Override

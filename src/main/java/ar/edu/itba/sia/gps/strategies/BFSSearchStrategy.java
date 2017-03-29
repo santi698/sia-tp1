@@ -13,6 +13,15 @@ public class BFSSearchStrategy extends AbstractSearchStrategy {
     setOpen(nodes);
   }
 
+  @Override
+  protected boolean canContinue(GPSNode node) {
+    if (expanded(node)) {
+      return false;
+    }
+    return true;
+  }
+
+
   public void concreteAddNode(GPSNode node) {
     nodes.add(node);
   }

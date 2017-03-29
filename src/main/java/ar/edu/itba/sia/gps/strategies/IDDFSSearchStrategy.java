@@ -38,4 +38,12 @@ public class IDDFSSearchStrategy  extends AbstractSearchStrategy {
   public GPSNode removeNextNode() {
     return nodes.remove();
   }
+
+  @Override
+  protected boolean canContinue(GPSNode node) {
+    if (expanded(node)) {
+      return false;
+    }
+    return true;
+  }
 }
