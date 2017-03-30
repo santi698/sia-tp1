@@ -31,6 +31,8 @@ public enum Movement implements GPSRule {
 
   @Override
   public Optional<GPSState> evalRule(GPSState state) {
-    return null;
+    if (!(state instanceof BoardState)) { return Optional.empty(); }
+    BoardState boardState = (BoardState) state;
+    return boardState.moveCharacter(direction);
   }
 }
