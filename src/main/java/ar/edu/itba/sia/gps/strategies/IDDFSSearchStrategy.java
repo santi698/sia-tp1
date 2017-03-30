@@ -9,10 +9,11 @@ import java.util.LinkedList;
 /**
  * Created by marlanti on 3/28/17.
  */
-public class IDDFSSearchStrategy  extends AbstractSearchStrategy {
+public class IDDFSSearchStrategy extends AbstractSearchStrategy {
 
   private Deque<GPSNode> nodes;
   private Integer depthBound;
+  private GPSNode root;
 
   public IDDFSSearchStrategy() {
     super();
@@ -28,15 +29,23 @@ public class IDDFSSearchStrategy  extends AbstractSearchStrategy {
 
   @Override
   protected void concreteAddNode(GPSNode node) {
-    if(node.getLevel() < depthBound){
-      nodes.addFirst(node);
+    if(nodes.isEmpty() && node.getLevel() == 0){
+      root = node;
     }
-    depthBound++;
+    nodes.addFirst(node);
   }
 
   @Override
   public GPSNode removeNextNode() {
-    return nodes.remove();
+
+    if (nodes.peek().getLevel() <= depthBound) {
+      depthBound++;
+      return nodes.remove();
+    }else{
+      return root;
+    }
+
+
   }
 
   @Override
