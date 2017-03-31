@@ -7,7 +7,6 @@ import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
 import ar.edu.itba.sia.g7.sokoban.tiles.TileType;
 import ar.edu.itba.sia.gps.api.GPSState;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

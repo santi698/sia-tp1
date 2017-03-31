@@ -12,8 +12,6 @@ import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
 import ar.edu.itba.sia.g7.sokoban.tiles.TileType;
 
-import javax.swing.*;
-
 public class BoardParser {
   private static final char CHARACTER = 'C';
   private static final char BOX = 'B';
@@ -107,34 +105,33 @@ public class BoardParser {
     StringBuffer buffer = new StringBuffer();
     for (List<Tile> row : board.getRows()) {
       for (Tile t : row) {
-        if (t.getEntity() != Entity.NOENTITY) {
-          switch (t.getEntity()) {
-            case CHARACTER:
-              if (t.getType() == TileType.FLOOR) {
-                buffer.append(CHARACTER);
-              } else {
-                buffer.append(CHARACTER_IN_GOAL);
-              }
-              break;
-            case BOX:
-              if (t.getType() == TileType.FLOOR)
-                buffer.append(BOX);
-              else
-                buffer.append(BOXINGOAL);
-              break;
-          }
-        } else {
-          switch (t.getType()) {
-            case FLOOR:
-              buffer.append(EMPTY);
-              break;
-            case WALL:
-              buffer.append(WALL);
-              break;
-            case GOAL:
-              buffer.append(GOAL);
-              break;
-          }
+        switch (t.getEntity()) {
+          case CHARACTER:
+            if (t.getType() == TileType.FLOOR) {
+              buffer.append(CHARACTER);
+            } else {
+              buffer.append(CHARACTER_IN_GOAL);
+            }
+            break;
+          case BOX:
+            if (t.getType() == TileType.FLOOR)
+              buffer.append(BOX);
+            else
+              buffer.append(BOXINGOAL);
+            break;
+          case NOENTITY:
+            switch (t.getType()) {
+              case FLOOR:
+                buffer.append(EMPTY);
+                break;
+              case WALL:
+                buffer.append(WALL);
+                break;
+              case GOAL:
+                buffer.append(GOAL);
+                break;
+            }
+            break;
         }
       }
       buffer.append('\n');
