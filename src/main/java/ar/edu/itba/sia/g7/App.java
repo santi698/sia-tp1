@@ -25,8 +25,9 @@ public class App {
     int n = userInput.nextInt();
     BoardState board = BoardParser.boardFromFile("maps/" + n +".txt");
     GPSProblem problem = new Problem(board);
-    GPSEngine engine = new GPSEngine(problem, SearchStrategy.DFS);
+    GPSEngine engine = new GPSEngine(problem, SearchStrategy.BFS);
     engine.findSolution();
+    System.out.println("The solution found is:\n");
     System.out.println(engine.getSolutionNode().getSolution());
   }
 }

@@ -17,7 +17,7 @@ import javax.swing.*;
 public class BoardParser {
   private static final char CHARACTER = 'C';
   private static final char BOX = 'B';
-  private static final char EMPTY = ' ';
+  private static final char EMPTY = '·';
   private static final char WALL = 'W';
   private static final char GOAL = 'G';
   private static final char BOXINGOAL = 'X';
@@ -55,7 +55,7 @@ public class BoardParser {
 
     return board;
   } catch(Exception e) {
-    System.out.println(e);
+    System.err.println(e);
     return null;
   }
 }
@@ -110,7 +110,11 @@ public class BoardParser {
         if (t.getEntity() != Entity.NOENTITY) {
           switch (t.getEntity()) {
             case CHARACTER:
-              buffer.append(CHARACTER);
+              if (t.getType() == TileType.FLOOR) {
+                buffer.append(CHARACTER);
+              } else {
+                buffer.append(CHARACTER_IN_GOAL);
+              }
               break;
             case BOX:
               if (t.getType() == TileType.FLOOR)

@@ -132,8 +132,8 @@ public class BoardState implements GPSState {
   }
 
   public boolean hasTile(Point position) {
-    if (position.getY() < 0 || position.getY() > rows.size() ||
-        position.getX() < 0 || position.getX() > rows.get(0).size()) {
+    if (position.getY() < 0 || position.getY() >= rows.size() ||
+        position.getX() < 0 || position.getX() >= rows.get(0).size()) {
       return false;
     }
     return true;
