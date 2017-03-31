@@ -40,14 +40,13 @@ public class Tile {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Tile tile = (Tile) o;
-    return position.equals(tile.position) &&
-      entity == tile.entity &&
+    return entity == tile.entity &&
       type == tile.type;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(position, entity, type);
+    return Objects.hash(entity, type);
   }
 
   public Point getPosition() {

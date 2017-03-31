@@ -20,7 +20,8 @@ public class BoardParser {
   private static final char EMPTY = ' ';
   private static final char WALL = 'W';
   private static final char GOAL = 'G';
-  private static final char BOXINGOAL = 'I';
+  private static final char BOXINGOAL = 'X';
+  private static final char CHARACTER_IN_GOAL = 'Q';
 
 
   public static BoardState boardFromFile(String filename){
@@ -36,7 +37,7 @@ public class BoardParser {
       int j = 0;
       ArrayList<Tile> row = new ArrayList<Tile>();
       for (char ch : line.toCharArray()) {
-        row.add(buildTile(ch, i, j, board));
+        row.add(buildTile(ch, j, i, board));
         j++;
       }
       board.addRow(row);
@@ -54,6 +55,7 @@ public class BoardParser {
 
     return board;
   } catch(Exception e) {
+    System.out.println(e);
     return null;
   }
 }
@@ -64,7 +66,7 @@ public class BoardParser {
     switch (c) {
       case CHARACTER:
         t = new Tile(x, y, Entity.CHARACTER, TileType.FLOOR);
-        try{
+        try {
           board.addCharacter(t);
           return t;
         } catch (TooManyPlayersInBoardException e) {
@@ -77,6 +79,15 @@ public class BoardParser {
       case BOXINGOAL:
         t = new Tile(x, y, Entity.BOX, TileType.GOAL);
         board.addBox(t);
+        board.addGoal(t);
+        return t;
+      case CHARACTER_IN_GOAL:
+        t = new Tile(x, y, Entity.CHARACTER, TileType.GOAL);
+        try {
+          board.addCharacter(t);
+        } catch (TooManyPlayersInBoardException e) {
+          throw new InvalidMapFormatException("");
+        }
         board.addGoal(t);
         return t;
       case EMPTY:
@@ -105,7 +116,7 @@ public class BoardParser {
               if (t.getType() == TileType.FLOOR)
                 buffer.append(BOX);
               else
-                buffer.append('X');
+                buffer.append(BOXINGOAL);
               break;
           }
         } else {

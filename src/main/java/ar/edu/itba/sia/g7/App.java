@@ -5,7 +5,11 @@ import java.util.Scanner;
 import ar.edu.itba.sia.g7.sokoban.BoardParser;
 import ar.edu.itba.sia.g7.sokoban.BoardState;
 import ar.edu.itba.sia.g7.sokoban.Direction;
+import ar.edu.itba.sia.g7.sokoban.Problem;
 import ar.edu.itba.sia.gps.api.GPSState;
+import ar.edu.itba.sia.gps.api.GPSProblem;
+import ar.edu.itba.sia.gps.SearchStrategy;
+import ar.edu.itba.sia.gps.GPSEngine;
 import java.util.Optional;
 
 /**
@@ -20,22 +24,9 @@ public class App {
     System.out.println("Elegir un numero de mapa:");
     int n = userInput.nextInt();
     BoardState board = BoardParser.boardFromFile("maps/" + n +".txt");
-
-    if (board != null) {
-      System.out.println(board.getRows().get(2).get(2).getEntity());
-      System.out.println(board.isSolved());
-    } else {
-      System.out.println("mapa invalido");
-    }
-
-    System.out.println(BoardParser.boardToString(board));
-    board.moveCharacter(Direction.DOWN).ifPresent((state) -> {
-      System.out.println(BoardParser.boardToString((BoardState) state));
-    });
-    Optional<GPSState> newBoard = board.moveCharacter(Direction.DOWN)
-                                       .flatMap((state) -> ((BoardState) state).moveCharacter(Direction.DOWN));
-
-    if (newBoard.isPresent()) { System.out.println(BoardParser.boardToString((BoardState) newBoard.get())); }
-    else { System.out.println("Invalid movement"); }
+    GPSProblem problem = new Problem(board);
+    GPSEngine engine = new GPSEngine(problem, SearchStrategy.DFS);
+    engine.findSolution();
+    System.out.println(engine.getSolutionNode().getSolution());
   }
 }

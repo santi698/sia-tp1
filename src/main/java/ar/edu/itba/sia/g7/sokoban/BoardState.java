@@ -1,13 +1,14 @@
 package ar.edu.itba.sia.g7.sokoban;
 
+import ar.edu.itba.sia.g7.sokoban.BoardParser;
 import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
 import ar.edu.itba.sia.g7.sokoban.tiles.TileType;
 import ar.edu.itba.sia.gps.api.GPSState;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -104,19 +105,25 @@ public class BoardState implements GPSState {
     BoardState newState = clone();
     Point targetCharacterPosition = characterTile.getPosition().add(direction.getDeltaX(),
                                                                     direction.getDeltaY());
-    newState.characterTile.setEntity(Entity.NOENTITY);
-    newState.setTileAt(newState.characterTile.getPosition(), newState.characterTile);
     Tile newCharacterTile = newState.getTileAt(targetCharacterPosition).get();
     if (newCharacterTile.getEntity() == Entity.BOX) {
-      Tile targetBoxTile = newState.getTileAt(targetCharacterPosition.add(direction.getDeltaX(),
-                                                                          direction.getDeltaY())).get();
-      targetBoxTile.setEntity(Entity.BOX);
-      newState.boxes.remove(newCharacterTile);
-      newState.boxes.add(targetBoxTile);
+      newState.moveBox(targetCharacterPosition, direction);
     }
+
     newCharacterTile.setEntity(Entity.CHARACTER);
-    newState.characterTile.setPosition(targetCharacterPosition);
+    newState.getTileAt(newState.characterTile.getPosition()).get().setEntity(Entity.NOENTITY);
+    newState.characterTile = newCharacterTile;
     return Optional.of(newState);
+  }
+
+  public void moveBox(Point position, Direction direction) {
+    Tile boxTile = getTileAt(position).get();
+    boxes.remove(boxTile);
+    boxTile.setEntity(Entity.NOENTITY);
+    Tile targetBoxTile = getTileAt(position.add(direction.getDeltaX(),
+                                                direction.getDeltaY())).get();
+    targetBoxTile.setEntity(Entity.BOX);
+    boxes.add(targetBoxTile);
   }
 
   public Optional<Tile> getTileAt(Point position) {
@@ -124,13 +131,9 @@ public class BoardState implements GPSState {
     return Optional.of(rows.get(position.getY()).get(position.getX()));
   }
 
-  public void setTileAt(Point position, Tile tile) {
-    this.rows.get(position.getY()).set(position.getX(), tile);
-  }
-
   public boolean hasTile(Point position) {
-    if (position.getX() < 0 || position.getX() > rows.size() ||
-        position.getY() < 0 || position.getY() > rows.get(0).size()) {
+    if (position.getY() < 0 || position.getY() > rows.size() ||
+        position.getX() < 0 || position.getX() > rows.get(0).size()) {
       return false;
     }
     return true;
@@ -147,5 +150,33 @@ public class BoardState implements GPSState {
                                             .isPresent();
 
     }).orElse(false);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof BoardState)) {
+      return false;
+    }
+    BoardState aState = (BoardState) o;
+    for(int i = 0; i < rows.size(); i++) {
+      List<Tile> row = rows.get(i);
+      for(int j = 0; j < row.size(); j++) {
+        Tile tile = row.get(j);
+        if (!tile.equals(aState.rows.get(i).get(j))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return rows.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return BoardParser.boardToString(this);
   }
 }
