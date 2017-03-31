@@ -32,6 +32,7 @@ public class GPSEngine {
     while (strategyObject.hasNextNode()) {
       GPSNode currentNode = strategyObject.removeNextNode();
       if (problem.isGoal(currentNode.getState())) {
+        System.out.println("States visited: " + strategyObject.getBestCosts().size());
         finished = true;
         solutionNode = currentNode;
         return;
