@@ -18,6 +18,9 @@ target/
 .settings/
 bin/
 
+# VS Code
+.vscode
+
 # IDEA
 *.iws
 *.ipr

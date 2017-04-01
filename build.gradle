@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'groovy'
+
+def langLevel = 1.8
+
+sourceCompatibility = langLevel
+targetCompatibility = langLevel
+
+group = 'ar.edu.itba.sia.g7'
+version = '0.1'
+mainClassName = "ar.edu.itba.sia.g7.App"
+
+jar {
+  manifest {
+    attributes "Main-class": "ar.edu.itba.sia.g7.App"
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+dependencies {
+  testCompile "org.codehaus.groovy:groovy-all:2.4.1"
+  testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.0' //version required
+}
