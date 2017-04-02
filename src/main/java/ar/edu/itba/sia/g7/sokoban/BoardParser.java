@@ -10,7 +10,6 @@ import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.InvalidMapFormatException;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
-import ar.edu.itba.sia.g7.sokoban.tiles.TileType;
 
 public class BoardParser {
   private static final char CHARACTER = 'C';
@@ -63,7 +62,7 @@ public class BoardParser {
     Tile t;
     switch (c) {
       case CHARACTER:
-        t = new Tile(x, y, Entity.CHARACTER, TileType.FLOOR);
+        t = new Tile(x, y, Entity.CHARACTER, Tile.TileType.FLOOR);
         try {
           board.addCharacter(t);
           return t;
@@ -71,16 +70,16 @@ public class BoardParser {
           throw new InvalidMapFormatException("");
         }
       case BOX:
-        t = new Tile(x, y, Entity.BOX, TileType.FLOOR);
+        t = new Tile(x, y, Entity.BOX, Tile.TileType.FLOOR);
         board.addBox(t);
         return t;
       case BOXINGOAL:
-        t = new Tile(x, y, Entity.BOX, TileType.GOAL);
+        t = new Tile(x, y, Entity.BOX, Tile.TileType.GOAL);
         board.addBox(t);
         board.addGoal(t);
         return t;
       case CHARACTER_IN_GOAL:
-        t = new Tile(x, y, Entity.CHARACTER, TileType.GOAL);
+        t = new Tile(x, y, Entity.CHARACTER, Tile.TileType.GOAL);
         try {
           board.addCharacter(t);
         } catch (TooManyPlayersInBoardException e) {
@@ -89,11 +88,11 @@ public class BoardParser {
         board.addGoal(t);
         return t;
       case EMPTY:
-        return new Tile(x, y, Entity.NOENTITY, TileType.FLOOR);
+        return new Tile(x, y, Entity.NOENTITY, Tile.TileType.FLOOR);
       case WALL:
-        return new Tile(x, y, Entity.NOENTITY, TileType.WALL);
+        return new Tile(x, y, Entity.NOENTITY, Tile.TileType.WALL);
       case GOAL:
-        t = new Tile(x, y, Entity.NOENTITY, TileType.GOAL);
+        t = new Tile(x, y, Entity.NOENTITY, Tile.TileType.GOAL);
         board.addGoal(t);
         return t;
       default:
@@ -107,14 +106,14 @@ public class BoardParser {
       for (Tile t : row) {
         switch (t.getEntity()) {
           case CHARACTER:
-            if (t.getType() == TileType.FLOOR) {
+            if (t.getType() == Tile.TileType.FLOOR) {
               buffer.append(CHARACTER);
             } else {
               buffer.append(CHARACTER_IN_GOAL);
             }
             break;
           case BOX:
-            if (t.getType() == TileType.FLOOR)
+            if (t.getType() == Tile.TileType.FLOOR)
               buffer.append(BOX);
             else
               buffer.append(BOXINGOAL);

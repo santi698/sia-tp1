@@ -2,6 +2,8 @@ package ar.edu.itba.sia.g7.sokoban.tiles;
 
 import ar.edu.itba.sia.g7.sokoban.Point;
 import ar.edu.itba.sia.g7.sokoban.entities.Entity;
+
+import java.util.List;
 import java.util.Objects;
 
 public class Tile {
@@ -63,5 +65,33 @@ public class Tile {
 
   public boolean canMoveInto() {
     return type.canHoldEntities() && entity == Entity.NOENTITY;
+  }
+
+  public int getMinDistFromTile(List<Tile> tiles){
+    int dist = Integer.MAX_VALUE;
+    for (Tile b: tiles) {
+
+      int auxDist = position.distance(b.getPosition());
+      if( auxDist < dist){
+        dist = auxDist;
+      }
+    }
+    return dist;
+  }
+
+  public static enum TileType {
+    WALL(false),
+    GOAL(true),
+    FLOOR(true);
+
+    private boolean canHold;
+
+    TileType(boolean canHold) {
+      this.canHold = canHold;
+    }
+
+    public boolean canHoldEntities() {
+      return canHold;
+    }
   }
 }

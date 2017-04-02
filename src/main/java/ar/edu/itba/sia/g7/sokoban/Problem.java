@@ -1,5 +1,8 @@
 package ar.edu.itba.sia.g7.sokoban;
 
+import ar.edu.itba.sia.g7.sokoban.heuristics.CharacterBoxDistanceHeuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.Heuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.ManhattanDistanceHeuristic;
 import ar.edu.itba.sia.gps.api.GPSProblem;
 import ar.edu.itba.sia.gps.api.GPSRule;
 import ar.edu.itba.sia.gps.api.GPSState;
@@ -9,11 +12,13 @@ import java.util.List;
 
 public class Problem implements GPSProblem {
   private BoardState board;
+  private Heuristic heuristic;
   
   public Problem (BoardState board){
-	  this.board = board;
+    this.board = board;
+    this.heuristic = new CharacterBoxDistanceHeuristic();
   }
-	
+
   public GPSState getInitState() {
     return this.board;
   }
@@ -27,7 +32,7 @@ public class Problem implements GPSProblem {
   };
 
   public Integer getHValue(GPSState state) {
-    return 0;
-  }  //suma de las 2 H
+    return heuristic.getHvalue((BoardState) state);
+  }
 
 }
