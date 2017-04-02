@@ -4,7 +4,6 @@ package ar.edu.itba.sia.g7.sokoban;
 import ar.edu.itba.sia.gps.api.GPSRule;
 import ar.edu.itba.sia.gps.api.GPSState;
 
-import java.awt.image.DirectColorModel;
 import java.util.Optional;
 
 public enum Movement implements GPSRule {
@@ -31,6 +30,8 @@ public enum Movement implements GPSRule {
 
   @Override
   public Optional<GPSState> evalRule(GPSState state) {
-    return null;
+    if (!(state instanceof BoardState)) { return Optional.empty(); }
+    BoardState boardState = (BoardState) state;
+    return boardState.moveCharacter(direction);
   }
 }

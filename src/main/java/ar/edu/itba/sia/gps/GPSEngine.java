@@ -1,15 +1,9 @@
 package  ar.edu.itba.sia.gps;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 import ar.edu.itba.sia.gps.api.GPSProblem;
-import ar.edu.itba.sia.gps.api.GPSRule;
 import ar.edu.itba.sia.gps.api.GPSState;
 import ar.edu.itba.sia.gps.strategies.*;
 
@@ -38,6 +32,7 @@ public class GPSEngine {
     while (strategyObject.hasNextNode()) {
       GPSNode currentNode = strategyObject.removeNextNode();
       if (problem.isGoal(currentNode.getState())) {
+        System.out.println("States visited: " + strategyObject.getBestCosts().size());
         finished = true;
         solutionNode = currentNode;
         return;

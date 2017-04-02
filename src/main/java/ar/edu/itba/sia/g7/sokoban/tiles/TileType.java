@@ -1,7 +1,17 @@
 package ar.edu.itba.sia.g7.sokoban.tiles;
 
 public enum TileType {
-  WALL,
-  GOAL,
-  FLOOR;
+  WALL(false),
+  GOAL(true),
+  FLOOR(true);
+
+  private boolean canHold;
+
+  TileType(boolean canHold) {
+    this.canHold = canHold;
+  }
+
+  public boolean canHoldEntities() {
+    return canHold;
+  }
 }

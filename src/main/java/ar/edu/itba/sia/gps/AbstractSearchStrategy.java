@@ -42,9 +42,7 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNodes(Collection<GPSNode> nodes) {
-
     nodes.stream().forEach((node) -> {
-
       if(!canContinue(node)){
         return;
       }

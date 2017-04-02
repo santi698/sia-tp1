@@ -47,14 +47,17 @@ public class GPSNode {
 
   @Override
   public String toString() {
-    return state.toString();
+    return "Level: " + level.toString() + "\n" +
+           "Cost: " + cost.toString() + "\n\n" + state.toString();
   }
 
   public String getSolution() {
     if (this.parent == null) {
-      return this.state.toString();
+      return toString();
     }
-    return this.parent.getSolution() + this.state.toString();
+    return parent.getSolution() +
+      "\n---------------------------\n\n" +
+      toString();
   }
 
   /**
@@ -67,7 +70,7 @@ public class GPSNode {
   public Collection<GPSNode> getNeighbors(Iterable<GPSRule> rules) {
     Collection<GPSNode> neighbors = new LinkedList<>();
     for (GPSRule rule : rules) {
-      Optional<GPSState> newState = rule.evalRule(this.getState());
+      Optional<GPSState> newState = rule.evalRule(getState());
       //FIXME: ver si pasarle el level asi está ok.
       newState.ifPresent(
         (state) -> neighbors.add(new GPSNode(state, cost + rule.getCost(), this, level+1, rule))
