@@ -154,11 +154,26 @@ public class BoardState implements GPSState {
     return tileAtTarget.filter((tile) -> tile.getType() != Tile.TileType.WALL)
                        .map((tile) -> {
       if (tile.canMoveInto()) { return true; }
-      Point positionNextToTarget = position.add(direction.getDeltaX(), direction.getDeltaY());
+      Point positionNextToTarget = position.add(direction);
       return getTileAt(positionNextToTarget).filter((nextTile) -> nextTile.canMoveInto())
                                             .isPresent();
 
     }).orElse(false);
+  }
+
+  public boolean isInCorner(Tile tile) {
+    Point position = tile.getPosition();
+    boolean canMoveUp = getTileAt(position.add(Direction.UP)).map(Tile::canMoveInto).orElse(false);
+    boolean canMoveDown = getTileAt(position.add(Direction.DOWN)).map(Tile::canMoveInto).orElse(false);
+    boolean canMoveLeft = getTileAt(position.add(Direction.LEFT)).map(Tile::canMoveInto).orElse(false);
+    boolean canMoveRight = getTileAt(position.add(Direction.RIGHT)).map(Tile::canMoveInto).orElse(false);
+    if (canMoveUp && canMoveDown) {
+      return false;
+    }
+    if (canMoveLeft && canMoveRight) {
+      return false;
+    }
+    return true;
   }
 
   @Override

@@ -21,12 +21,16 @@ public class Point {
     return new Point(x + aPoint.x, y + aPoint.y);
   }
 
+  public Point add(Direction direction) {
+    return new Point(x + direction.getDeltaX(), y + direction.getDeltaY());
+  }
+
   public Point add(int x, int y) {
     return new Point(this.x + x, this.y + y);
   }
 
   public Point sub(Point aPoint) {
-    return new Point(x - aPoint.x, y + aPoint.y);
+    return new Point(x - aPoint.x, y - aPoint.y);
   }
 
   public int distance(Point aPoint) {

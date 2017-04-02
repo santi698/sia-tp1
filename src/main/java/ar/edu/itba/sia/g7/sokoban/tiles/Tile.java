@@ -68,15 +68,10 @@ public class Tile {
   }
 
   public int getMinDistFromTile(List<Tile> tiles){
-    int dist = Integer.MAX_VALUE;
-    for (Tile b: tiles) {
-
-      int auxDist = position.distance(b.getPosition());
-      if( auxDist < dist){
-        dist = auxDist;
-      }
-    }
-    return dist;
+    return tiles.stream()
+                .mapToInt((box) -> position.distance(box.position))
+                .min()
+                .orElse(0);
   }
 
   public static enum TileType {

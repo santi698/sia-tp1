@@ -24,7 +24,7 @@ public class GreedySearchStrategy extends AbstractSearchStrategy {
     }*/
 
     nodes = new PriorityQueue<>(
-      (a, b) -> heuristic.apply(b.getState()) - heuristic.apply(a.getState())
+      (a, b) -> heuristic.apply(a.getState()) - heuristic.apply(b.getState())
     );
     setOpen(nodes);
   }
