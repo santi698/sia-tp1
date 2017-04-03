@@ -21,16 +21,10 @@ public class AStarSearchStrategy extends AbstractSearchStrategy {
 
   @Override
   protected void concreteAddNode(GPSNode node) {
-    System.out.println("Adding");
-    System.out.println("G = " + node.getCost());
-    System.out.println("H = " + heuristic.apply(node.getState()));
     nodes.add(node);
   }
 
   public GPSNode removeNextNode() {
-    System.out.println("Removing");
-    System.out.println("G = " + nodes.peek().getCost());
-    System.out.println("H = " + heuristic.apply(nodes.peek().getState()));
     return nodes.remove();
   }
 
@@ -40,7 +34,6 @@ public class AStarSearchStrategy extends AbstractSearchStrategy {
 
   @Override
   protected boolean canContinue(GPSNode node) {
-    //TODO chequear que esté ok la lógica
     return isBest(node.getState(), node.getCost());
   }
 

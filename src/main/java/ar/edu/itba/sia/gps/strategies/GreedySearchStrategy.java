@@ -31,8 +31,7 @@ public class GreedySearchStrategy extends AbstractSearchStrategy {
 
   @Override
   protected boolean canContinue(GPSNode node) {
-    //TODO chequear que nuestra forma de implementación no requiera de esta implementación.
-    return true;
+    return isBest(node.getState(), node.getCost());
   }
 
   @Override

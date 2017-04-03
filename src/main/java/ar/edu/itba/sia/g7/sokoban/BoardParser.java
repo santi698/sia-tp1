@@ -114,9 +114,13 @@ public class BoardParser {
             break;
           case BOX:
             if (t.getType() == Tile.TileType.FLOOR)
-              buffer.append(BOX);
+              if (board.isInCorner(t)) {
+                buffer.append("\u001B[31m" + BOX + "\u001B[0m");
+              } else {
+                buffer.append(BOX);
+              }
             else
-              buffer.append(BOXINGOAL);
+              buffer.append("\u001B[32m" + BOXINGOAL + "\u001B[0m");
             break;
           case NOENTITY:
             switch (t.getType()) {
