@@ -1,4 +1,4 @@
-package  ar.edu.itba.sia.gps;
+package gps;
 
 public enum SearchStrategy {
   DFS, BFS, IDDFS, GREEDYSEARCH, ASTAR;

@@ -1,29 +1,30 @@
-package  ar.edu.itba.sia.gps.strategies;
+package  gps.strategies;
 
-import  ar.edu.itba.sia.gps.AbstractSearchStrategy;
+import  gps.AbstractSearchStrategy;
+import  gps.GPSNode;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
-import  ar.edu.itba.sia.gps.GPSNode;
 
-public class BFSSearchStrategy extends AbstractSearchStrategy {
-  Queue<GPSNode> nodes;
-  public BFSSearchStrategy() {
+public class DFSSearchStrategy extends AbstractSearchStrategy {
+
+  private Deque<GPSNode> nodes;
+
+  public DFSSearchStrategy() {
     super();
     nodes = new LinkedList<>();
     setOpen(nodes);
   }
 
   @Override
+  public void concreteAddNode(GPSNode node) {
+    nodes.addFirst(node);
+  }
+  @Override
   protected boolean canContinue(GPSNode node) {
     if (expanded(node)) {
       return false;
     }
     return true;
-  }
-
-
-  public void concreteAddNode(GPSNode node) {
-    nodes.add(node);
   }
 
   public GPSNode removeNextNode() {

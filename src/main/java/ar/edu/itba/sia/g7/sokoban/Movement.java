@@ -1,8 +1,8 @@
 package ar.edu.itba.sia.g7.sokoban;
 
 
-import ar.edu.itba.sia.gps.api.GPSRule;
-import ar.edu.itba.sia.gps.api.GPSState;
+import gps.api.GPSRule;
+import gps.api.GPSState;
 
 import java.util.Optional;
 
