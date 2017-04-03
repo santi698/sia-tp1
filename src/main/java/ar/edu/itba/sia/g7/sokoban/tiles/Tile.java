@@ -66,7 +66,6 @@ public class Tile {
   public boolean canMoveInto() {
     return type.canHoldEntities() && entity == Entity.NOENTITY;
   }
-
   public int getMinDistFromTile(List<Tile> tiles){
     return tiles.stream()
                 .mapToInt((box) -> position.distance(box.position))
