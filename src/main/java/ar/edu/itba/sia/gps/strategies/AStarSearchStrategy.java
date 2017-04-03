@@ -1,8 +1,8 @@
-package  gps.strategies;
+package  ar.edu.itba.sia.gps.strategies;
 
-import gps.AbstractSearchStrategy;
-import gps.GPSNode;
-import gps.api.GPSState;
+import ar.edu.itba.sia.gps.AbstractSearchStrategy;
+import ar.edu.itba.sia.gps.GPSNode;
+import ar.edu.itba.sia.gps.api.GPSState;
 import java.util.function.Function;
 import java.util.Queue;
 import java.util.PriorityQueue;

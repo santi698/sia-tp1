@@ -1,8 +1,8 @@
-package gps;
+package ar.edu.itba.sia.gps;
 
-import  gps.api.GPSState;
+import  ar.edu.itba.sia.gps.api.GPSState;
 import java.util.Collection;
-import  gps.api.GPSRule;
+import  ar.edu.itba.sia.gps.api.GPSRule;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -27,6 +27,9 @@ public class GPSNode {
     this.generationRule = generationRule;
   }
 
+  public boolean isRoot() {
+    return parent==null && level==0;
+  }
 
 
   public Integer getLevel() {

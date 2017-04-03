@@ -1,11 +1,14 @@
-package gps;
+
+package ar.edu.itba.sia.gps;
+
+
+import ar.edu.itba.sia.gps.api.GPSProblem;
+import ar.edu.itba.sia.gps.api.GPSState;
+import ar.edu.itba.sia.gps.strategies.*;
 
 import java.util.Map;
 import java.util.Queue;
 
-import gps.api.GPSProblem;
-import gps.api.GPSState;
-import gps.strategies.*;
 
 public class GPSEngine {
 
@@ -28,17 +31,21 @@ public class GPSEngine {
   public void findSolution() {
     GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
     strategyObject.addNode(rootNode);
-    // TODO: ¿Lógica de IDDFS?
+
     while (strategyObject.hasNextNode()) {
       GPSNode currentNode = strategyObject.removeNextNode();
-      if (problem.isGoal(currentNode.getState())) {
-        System.out.println("States visited: " + strategyObject.getBestCosts().size());
-        finished = true;
-        solutionNode = currentNode;
-        return;
-      } else {
-        strategyObject.addNodes(currentNode.getNeighbors(problem.getRules()));
+      if (currentNode != null) {
+        if (problem.isGoal(currentNode.getState())) {
+          System.out.println("Estados visitados: " + strategyObject.getBestCosts().size());
+          finished = true;
+          solutionNode = currentNode;
+          return;
+        } else {
+
+          strategyObject.addNodes(currentNode.getNeighbors(problem.getRules()));
+        }
       }
+
     }
     failed = true;
     finished = true;
@@ -46,12 +53,18 @@ public class GPSEngine {
 
   public ISearchStrategy initStrategy() {
     switch (strategy) {
-      case DFS: return new DFSSearchStrategy();
-      case BFS: return new BFSSearchStrategy();
-      case IDDFS: return new IDDFSSearchStrategy();
-      case GREEDYSEARCH: return new GreedySearchStrategy(problem::getHValue);
-      case ASTAR: return new AStarSearchStrategy(problem::getHValue);
-      default: return null;
+      case DFS:
+        return new DFSSearchStrategy();
+      case BFS:
+        return new BFSSearchStrategy();
+      case IDDFS:
+        return new IDDFSSearchStrategy(problem);
+      case GREEDYSEARCH:
+        return new GreedySearchStrategy(problem::getHValue);
+      case ASTAR:
+        return new AStarSearchStrategy(problem::getHValue);
+      default:
+        return null;
     }
   }
 
