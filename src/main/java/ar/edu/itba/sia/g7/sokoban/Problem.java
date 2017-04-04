@@ -9,6 +9,7 @@ import gps.api.GPSRule;
 import gps.api.GPSState;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,13 +17,14 @@ public class Problem implements GPSProblem {
   private BoardState board;
   private List<Heuristic> heuristics;
   
-  public Problem (BoardState board){
+  public Problem (BoardState board, Heuristic heuristic){
     this.board = board;
-    this.heuristics = Arrays.asList(
-      new CharacterToBoxDistanceHeuristic(),
-      new GoalsToBoxesDistanceHeuristic(),
-      new CornerHeuristic()
-    );
+    this.heuristics = new ArrayList<Heuristic>();
+    this.heuristics.add(new CharacterToBoxDistanceHeuristic());
+    this.heuristics.add(new CornerHeuristic());
+    if(heuristic != null){
+      this.heuristics.add(heuristic);
+    }
   }
 
   public GPSState getInitState() {

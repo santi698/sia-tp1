@@ -5,6 +5,9 @@ import java.util.Scanner;
 import ar.edu.itba.sia.g7.sokoban.BoardParser;
 import ar.edu.itba.sia.g7.sokoban.BoardState;
 import ar.edu.itba.sia.g7.sokoban.Problem;
+import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesDistanceHeuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesStraightLineHeuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.Heuristic;
 import gps.api.GPSProblem;
 import gps.SearchStrategy;
 import gps.GPSEngine;
@@ -23,24 +26,44 @@ public class App {
     System.out.println("Elegir una estrategia:");
     printStrategies();
     int strategy = userInput.nextInt();
-    userInput.close();
     BoardState board = BoardParser.boardFromFile("maps/" + level +".txt");
-    GPSProblem problem = new Problem(board);
-    GPSEngine engine = new GPSEngine(problem, chooseStrategy(strategy));
+    GPSProblem problem;
+    if(strategy > 3){
+      System.out.println("Elegir una heuristica:");
+      printHauristics();
+      int heuristic = userInput.nextInt();
+      userInput.close();
+      problem = new Problem(board, chosenHeuristic(heuristic));
+    } else {
+      userInput.close();
+      problem = new Problem(board, null);
+    }
+    GPSEngine engine = new GPSEngine(problem, chosenStrategy(strategy));
     long startTime = System.nanoTime();
     engine.findSolution();
     GPSNode solution =  engine.getSolutionNode();
     if (solution == null) {
-      System.out.println("No solution found.");
+      System.out.println("El mapa no tiene solución.");
       return;
     }
-    System.out.println("The solution found is:\n");
+    System.out.println("La solución es:\n");
     System.out.println(solution.getSolution());
-    System.out.println("Solution found in " + (System.nanoTime() - startTime)/1000000f + " miliseconds");
+    System.out.println("Estados visitados: " + engine.getBestCosts().size());
+    System.out.println("Estados frontera: " + engine.getOpen().size());
+    System.out.println("Solución encontrada en " + (System.nanoTime() - startTime)/1000000f + " milisegundos");
 
   }
 
-  public static SearchStrategy chooseStrategy(int number) {
+  private static Heuristic chosenHeuristic(int heuristic) {
+    switch(heuristic) {
+      case 1: return new GoalsToBoxesDistanceHeuristic();
+      case 2: return new GoalsToBoxesStraightLineHeuristic();
+      default: return new GoalsToBoxesDistanceHeuristic();
+
+    }
+  }
+
+  public static SearchStrategy chosenStrategy(int number) {
     switch(number) {
       case 1: return SearchStrategy.BFS;
       case 2: return SearchStrategy.DFS;
@@ -57,5 +80,9 @@ public class App {
     System.out.println("3. IDDFS");
     System.out.println("4. Greedy Search");
     System.out.println("5. A*");
+  }
+  public static void printHauristics(){
+    System.out.println("1. Distancia Manhattan");
+    System.out.println("2. Distancia Linea Recta");
   }
 }
