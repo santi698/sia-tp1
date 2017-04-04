@@ -38,6 +38,11 @@ public class Point {
     return Math.abs(diff.x) + Math.abs(diff.y);
   }
 
+  public int hypotenuse(Point point){
+    Point diff = sub(point);
+    return (int) Math.ceil(Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2)));
+  }
+
   public boolean equals(Object o) {
     if (!(o instanceof Point)) { return false; }
     Point aPoint = (Point) o;

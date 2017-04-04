@@ -27,6 +27,7 @@ public class App {
     BoardState board = BoardParser.boardFromFile("maps/" + level +".txt");
     GPSProblem problem = new Problem(board);
     GPSEngine engine = new GPSEngine(problem, chooseStrategy(strategy));
+    long startTime = System.nanoTime();
     engine.findSolution();
     GPSNode solution =  engine.getSolutionNode();
     if (solution == null) {
@@ -35,6 +36,7 @@ public class App {
     }
     System.out.println("The solution found is:\n");
     System.out.println(solution.getSolution());
+    System.out.println("Solution found in " + (System.nanoTime() - startTime)/1000000f + " miliseconds");
   }
 
   public static SearchStrategy chooseStrategy(int number) {
