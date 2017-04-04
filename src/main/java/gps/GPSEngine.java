@@ -11,7 +11,8 @@ import java.util.Queue;
 
 
 public class GPSEngine {
-
+  public static int TIMEOUT_SECONDS = 600;
+  public static int MAX_LEVEL = 400;
   private GPSProblem problem;
 
   private boolean finished;
@@ -19,6 +20,7 @@ public class GPSEngine {
   private GPSNode solutionNode;
   private SearchStrategy strategy;
   private ISearchStrategy strategyObject;
+  private long startTime;
 
   public GPSEngine(GPSProblem myProblem, SearchStrategy myStrategy) {
     problem = myProblem;
@@ -29,18 +31,21 @@ public class GPSEngine {
   }
 
   public void findSolution() {
+    this.startTime = System.currentTimeMillis();
     GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
     strategyObject.addNode(rootNode);
 
-    while (strategyObject.hasNextNode()) {
+    while (strategyObject.hasNextNode() && !timeout()) {
       GPSNode currentNode = strategyObject.removeNextNode();
+      if (currentNode.getLevel() > MAX_LEVEL) {
+        continue;
+      }
       if (currentNode != null) {
         if (problem.isGoal(currentNode.getState())) {
           finished = true;
           solutionNode = currentNode;
           return;
         } else {
-
           strategyObject.addNodes(currentNode.getNeighbors(problem.getRules()));
         }
       }
@@ -99,6 +104,10 @@ public class GPSEngine {
 
   public SearchStrategy getStrategy() {
     return strategy;
+  }
+
+  private boolean timeout() {
+    return System.currentTimeMillis() - startTime > 1000 * TIMEOUT_SECONDS;
   }
 
 }
