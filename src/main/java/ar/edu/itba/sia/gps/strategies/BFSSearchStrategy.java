@@ -1,9 +1,9 @@
-package  gps.strategies;
+package  ar.edu.itba.sia.gps.strategies;
 
-import  gps.AbstractSearchStrategy;
+import  ar.edu.itba.sia.gps.AbstractSearchStrategy;
 import java.util.LinkedList;
 import java.util.Queue;
-import  gps.GPSNode;
+import  ar.edu.itba.sia.gps.GPSNode;
 
 public class BFSSearchStrategy extends AbstractSearchStrategy {
   Queue<GPSNode> nodes;
