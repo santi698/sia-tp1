@@ -3,7 +3,9 @@ package ar.edu.itba.sia.g7.sokoban;
 import ar.edu.itba.sia.g7.sokoban.entities.Entity;
 import ar.edu.itba.sia.g7.sokoban.exception.TooManyPlayersInBoardException;
 import ar.edu.itba.sia.g7.sokoban.tiles.Tile;
-import ar.edu.itba.sia.gps.api.GPSState;
+
+import ar.edu.itba.sia.g7.sokoban.tiles.Tile.TileType;
+import gps.api.GPSState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -132,6 +134,11 @@ public class BoardState implements GPSState {
     Tile targetBoxTile = getTileAt(position.add(direction.getDeltaX(),
                                                 direction.getDeltaY())).get();
     targetBoxTile.setEntity(Entity.BOX);
+    if (targetBoxTile.getType() == TileType.GOAL) {
+      goals.stream()
+           .filter((tile) ->tile.getType() == TileType.GOAL)
+           .forEach((tile) -> tile.setEntity(Entity.BOX));
+    }
     boxes.add(targetBoxTile);
   }
 
@@ -163,10 +170,10 @@ public class BoardState implements GPSState {
 
   public boolean isInCorner(Tile tile) {
     Point position = tile.getPosition();
-    boolean canMoveUp = getTileAt(position.add(Direction.UP)).map(Tile::canMoveInto).orElse(false);
-    boolean canMoveDown = getTileAt(position.add(Direction.DOWN)).map(Tile::canMoveInto).orElse(false);
-    boolean canMoveLeft = getTileAt(position.add(Direction.LEFT)).map(Tile::canMoveInto).orElse(false);
-    boolean canMoveRight = getTileAt(position.add(Direction.RIGHT)).map(Tile::canMoveInto).orElse(false);
+    boolean canMoveUp = canBeFreed(position.add(Direction.UP));
+    boolean canMoveDown = canBeFreed(position.add(Direction.DOWN));
+    boolean canMoveLeft = canBeFreed(position.add(Direction.LEFT));
+    boolean canMoveRight = canBeFreed(position.add(Direction.RIGHT));
     if (canMoveUp && canMoveDown) {
       return false;
     }
@@ -174,6 +181,26 @@ public class BoardState implements GPSState {
       return false;
     }
     return true;
+  }
+
+  public boolean canBeFreed(Point position) {
+    boolean isFree = getTileAt(position)
+      .map((tile) -> (tile.getEntity() == Entity.CHARACTER) || tile.canMoveInto())
+      .orElse(false);
+    if (isFree) {
+      return true;
+    }
+    boolean canBeMovedUp = getTileAt(position.add(Direction.UP)).map(Tile::canMoveInto).orElse(false);
+    boolean canBeMovedDown = getTileAt(position.add(Direction.DOWN)).map(Tile::canMoveInto).orElse(false);
+    boolean canBeMovedLeft = getTileAt(position.add(Direction.LEFT)).map(Tile::canMoveInto).orElse(false);
+    boolean canBeMovedRight = getTileAt(position.add(Direction.RIGHT)).map(Tile::canMoveInto).orElse(false);
+    final boolean canBeFreed;
+    if ((canBeMovedUp && canBeMovedDown) || (canBeMovedLeft && canBeMovedRight)) {
+      canBeFreed = true;
+    } else {
+      canBeFreed = false;
+    }
+    return getTileAt(position).map((tile) -> tile.canMoveInto() || canBeFreed).orElse(false);
   }
 
   @Override

@@ -1,7 +1,7 @@
-package  ar.edu.itba.sia.gps.strategies;
+package  gps.strategies;
 
-import  ar.edu.itba.sia.gps.AbstractSearchStrategy;
-import  ar.edu.itba.sia.gps.GPSNode;
+import  gps.AbstractSearchStrategy;
+import  gps.GPSNode;
 import java.util.Deque;
 import java.util.LinkedList;
 

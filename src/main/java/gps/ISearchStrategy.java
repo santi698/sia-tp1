@@ -1,6 +1,6 @@
-package ar.edu.itba.sia.gps;
+package gps;
 
-import ar.edu.itba.sia.gps.api.GPSState;
+import gps.api.GPSState;
 
 import java.util.Collection;
 import java.util.Map;
