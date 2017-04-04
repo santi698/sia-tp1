@@ -1,9 +1,6 @@
 package ar.edu.itba.sia.g7.sokoban;
 
-import ar.edu.itba.sia.g7.sokoban.heuristics.CharacterToBoxDistanceHeuristic;
-import ar.edu.itba.sia.g7.sokoban.heuristics.CornerHeuristic;
-import ar.edu.itba.sia.g7.sokoban.heuristics.Heuristic;
-import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesDistanceHeuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.*;
 import gps.api.GPSProblem;
 import gps.api.GPSRule;
 import gps.api.GPSState;

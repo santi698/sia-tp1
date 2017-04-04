@@ -74,6 +74,13 @@ public class Tile {
                 .orElse(0);
   }
 
+  public int getMinStraightDistFromTile(List<Tile> tiles){
+    return tiles.stream()
+      .mapToInt((box) -> position.hypotenuse(box.position))
+      .min()
+      .orElse(0);
+  }
+
   public static enum TileType {
     WALL(false),
     GOAL(true),
