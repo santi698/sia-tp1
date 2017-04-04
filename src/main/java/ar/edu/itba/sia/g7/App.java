@@ -36,7 +36,7 @@ public class App {
     }
     System.out.println("The solution found is:\n");
     System.out.println(solution.getSolution());
-    System.out.println("Solution found in "+(System.nanoTime() - startTime)/1000000+" miliseconds");
+    System.out.println("Solution found in " + (System.nanoTime() - startTime)/1000000f + " miliseconds");
   }
 
   public static SearchStrategy chooseStrategy(int number) {

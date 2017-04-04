@@ -8,7 +8,6 @@ import ar.edu.itba.sia.gps.api.GPSProblem;
 import ar.edu.itba.sia.gps.api.GPSRule;
 import ar.edu.itba.sia.gps.api.GPSState;
 
-
 import java.util.Arrays;
 import java.util.List;
 
