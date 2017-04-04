@@ -4,9 +4,9 @@ import ar.edu.itba.sia.g7.sokoban.heuristics.CharacterToBoxDistanceHeuristic;
 import ar.edu.itba.sia.g7.sokoban.heuristics.CornerHeuristic;
 import ar.edu.itba.sia.g7.sokoban.heuristics.Heuristic;
 import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesDistanceHeuristic;
-import ar.edu.itba.sia.gps.api.GPSProblem;
-import ar.edu.itba.sia.gps.api.GPSRule;
-import ar.edu.itba.sia.gps.api.GPSState;
+import gps.api.GPSProblem;
+import gps.api.GPSRule;
+import gps.api.GPSState;
 
 
 import java.util.Arrays;
