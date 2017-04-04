@@ -1,10 +1,10 @@
 
-package ar.edu.itba.sia.gps;
+package gps;
 
 
-import ar.edu.itba.sia.gps.api.GPSProblem;
-import ar.edu.itba.sia.gps.api.GPSState;
-import ar.edu.itba.sia.gps.strategies.*;
+import gps.api.GPSProblem;
+import gps.api.GPSState;
+import gps.strategies.*;
 
 import java.util.Map;
 import java.util.Queue;

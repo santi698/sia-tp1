@@ -1,11 +1,11 @@
-package  ar.edu.itba.sia.gps.strategies;
+package  gps.strategies;
 
-import  ar.edu.itba.sia.gps.AbstractSearchStrategy;
-import  ar.edu.itba.sia.gps.GPSNode;
+import  gps.AbstractSearchStrategy;
+import  gps.GPSNode;
 import java.util.Queue;
 import java.util.function.Function;
 import java.util.PriorityQueue;
-import  ar.edu.itba.sia.gps.api.GPSState;
+import  gps.api.GPSState;
 
 public class GreedySearchStrategy extends AbstractSearchStrategy {
   Queue<GPSNode> nodes;

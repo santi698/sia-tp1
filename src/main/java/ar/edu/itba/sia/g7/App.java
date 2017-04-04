@@ -5,10 +5,10 @@ import java.util.Scanner;
 import ar.edu.itba.sia.g7.sokoban.BoardParser;
 import ar.edu.itba.sia.g7.sokoban.BoardState;
 import ar.edu.itba.sia.g7.sokoban.Problem;
-import ar.edu.itba.sia.gps.api.GPSProblem;
-import ar.edu.itba.sia.gps.SearchStrategy;
-import ar.edu.itba.sia.gps.GPSEngine;
-import ar.edu.itba.sia.gps.GPSNode;
+import gps.api.GPSProblem;
+import gps.SearchStrategy;
+import gps.GPSEngine;
+import gps.GPSNode;
 
 /**
  * Hello world!

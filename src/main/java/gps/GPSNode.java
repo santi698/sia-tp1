@@ -1,8 +1,8 @@
-package ar.edu.itba.sia.gps;
+package gps;
 
-import  ar.edu.itba.sia.gps.api.GPSState;
+import  gps.api.GPSState;
 import java.util.Collection;
-import  ar.edu.itba.sia.gps.api.GPSRule;
+import  gps.api.GPSRule;
 import java.util.LinkedList;
 import java.util.Optional;
 
