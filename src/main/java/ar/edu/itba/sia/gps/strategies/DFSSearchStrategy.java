@@ -1,7 +1,7 @@
-package  gps.strategies;
+package  ar.edu.itba.sia.gps.strategies;
 
-import  gps.AbstractSearchStrategy;
-import  gps.GPSNode;
+import  ar.edu.itba.sia.gps.AbstractSearchStrategy;
+import  ar.edu.itba.sia.gps.GPSNode;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -17,8 +17,10 @@ public class DFSSearchStrategy extends AbstractSearchStrategy {
 
   @Override
   public void concreteAddNode(GPSNode node) {
+
     nodes.addFirst(node);
   }
+
   @Override
   protected boolean canContinue(GPSNode node) {
     if (expanded(node)) {

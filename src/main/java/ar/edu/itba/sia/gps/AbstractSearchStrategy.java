@@ -1,9 +1,9 @@
-package gps;
+package ar.edu.itba.sia.gps;
 
 import java.util.Map;
 import java.util.HashMap;
 
-import gps.api.GPSState;
+import ar.edu.itba.sia.gps.api.GPSState;
 
 import java.util.Collection;
 import java.util.Queue;
@@ -13,9 +13,11 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   private Queue<GPSNode> open;
   private long explosionCounter;
 
+
   public AbstractSearchStrategy() {
     bestCosts = new HashMap<>();
     explosionCounter = 0;
+
   }
 
   public void setOpen(Queue<GPSNode> open) {
@@ -31,7 +33,6 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNode(GPSNode node) {
-    explosionCounter++;
     updateBest(node);
     concreteAddNode(node);
   }
@@ -42,11 +43,12 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
   }
 
   public void addNodes(Collection<GPSNode> nodes) {
+
     nodes.stream().forEach((node) -> {
-      if(!canContinue(node)){
+      if (!canContinue(node)) {
         return;
       }
-
+      explosionCounter++;
       addNode(node);
     });
   }
@@ -67,5 +69,10 @@ public abstract class AbstractSearchStrategy implements ISearchStrategy {
 
   public long getExplosionCounter() {
     return explosionCounter;
+  }
+
+  protected void resetBestCosts() {
+    bestCosts = new HashMap<>();
+    explosionCounter=0;
   }
 }
