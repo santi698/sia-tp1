@@ -1,13 +1,13 @@
 package ar.edu.itba.sia.g7;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import ar.edu.itba.sia.g7.sokoban.BoardParser;
 import ar.edu.itba.sia.g7.sokoban.BoardState;
 import ar.edu.itba.sia.g7.sokoban.Problem;
-import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesDistanceHeuristic;
-import ar.edu.itba.sia.g7.sokoban.heuristics.GoalsToBoxesStraightLineHeuristic;
-import ar.edu.itba.sia.g7.sokoban.heuristics.Heuristic;
+import ar.edu.itba.sia.g7.sokoban.heuristics.*;
 import gps.api.GPSProblem;
 import gps.SearchStrategy;
 import gps.GPSEngine;
@@ -21,7 +21,7 @@ public class App {
   public static void main(String[] args ) {
     Scanner userInput = new Scanner(System.in);
     System.out.println("Sokoban - SIA");
-    System.out.println("Elegir un numero de mapa:");
+    System.out.println("Elegir un numero de mapa (1 al 11):");
     int level = userInput.nextInt();
     System.out.println("Elegir una estrategia:");
     printStrategies();
@@ -54,13 +54,29 @@ public class App {
 
   }
 
-  private static Heuristic chosenHeuristic(int heuristic) {
+  private static List<Heuristic> chosenHeuristic(int heuristic) {
+    List<Heuristic> heuristics = new ArrayList<Heuristic>();
     switch(heuristic) {
-      case 1: return new GoalsToBoxesDistanceHeuristic();
-      case 2: return new GoalsToBoxesStraightLineHeuristic();
-      default: return new GoalsToBoxesDistanceHeuristic();
-
+      case 1: {
+        heuristics.add(new CharacterToBoxDistanceHeuristic());
+        heuristics.add(new CornerHeuristic());
+        heuristics.add(new GoalsToBoxesDistanceHeuristic());
+      }
+      case 2: {
+        heuristics.add(new GoalsToBoxesDistanceHeuristic());
+      }
+      case 3: {
+        heuristics.add(new CharacterToBoxDistanceHeuristic());
+        heuristics.add(new CornerHeuristic());
+        heuristics.add(new GoalsToBoxesStraightLineHeuristic());
+      }
+      default: {
+        heuristics.add(new CharacterToBoxDistanceHeuristic());
+        heuristics.add(new CornerHeuristic());
+        heuristics.add(new GoalsToBoxesDistanceHeuristic());
+      }
     }
+    return heuristics;
   }
 
   public static SearchStrategy chosenStrategy(int number) {
@@ -74,6 +90,7 @@ public class App {
     }
   }
 
+
   public static void printStrategies() {
     System.out.println("1. BFS");
     System.out.println("2. DFS");
@@ -82,7 +99,8 @@ public class App {
     System.out.println("5. A*");
   }
   public static void printHauristics(){
-    System.out.println("1. Distancia Manhattan");
-    System.out.println("2. Distancia Linea Recta");
+    System.out.println("1. Distancia Manhattan con corner");
+    System.out.println("2. Distancia Manhattan");
+    System.out.println("3. Distancia Linea Recta");
   }
 }

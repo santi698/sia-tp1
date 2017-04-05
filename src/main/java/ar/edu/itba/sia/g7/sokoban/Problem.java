@@ -17,14 +17,9 @@ public class Problem implements GPSProblem {
   private BoardState board;
   private List<Heuristic> heuristics;
   
-  public Problem (BoardState board, Heuristic heuristic){
+  public Problem (BoardState board, List<Heuristic> heuristics){
     this.board = board;
-    this.heuristics = new ArrayList<Heuristic>();
-    this.heuristics.add(new CharacterToBoxDistanceHeuristic());
-    this.heuristics.add(new CornerHeuristic());
-    if(heuristic != null){
-      this.heuristics.add(heuristic);
-    }
+    this.heuristics = heuristics;
   }
 
   public GPSState getInitState() {
