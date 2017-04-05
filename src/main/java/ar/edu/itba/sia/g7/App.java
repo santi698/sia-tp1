@@ -61,19 +61,23 @@ public class App {
         heuristics.add(new CharacterToBoxDistanceHeuristic());
         heuristics.add(new CornerHeuristic());
         heuristics.add(new GoalsToBoxesDistanceHeuristic());
+        break;
       }
       case 2: {
         heuristics.add(new GoalsToBoxesDistanceHeuristic());
+        break;
       }
       case 3: {
         heuristics.add(new CharacterToBoxDistanceHeuristic());
         heuristics.add(new CornerHeuristic());
         heuristics.add(new GoalsToBoxesStraightLineHeuristic());
+        break;
       }
       default: {
         heuristics.add(new CharacterToBoxDistanceHeuristic());
         heuristics.add(new CornerHeuristic());
         heuristics.add(new GoalsToBoxesDistanceHeuristic());
+        break;
       }
     }
     return heuristics;
