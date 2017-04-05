@@ -40,7 +40,7 @@ public class Point {
 
   public int hypotenuse(Point point){
     Point diff = sub(point);
-    return (int) Math.ceil(Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2)));
+    return (int) Math.ceil(Math.sqrt(Math.pow(diff.x, 2) + Math.pow(diff.y, 2)));
   }
 
   public boolean equals(Object o) {
